@@ -1,0 +1,3 @@
+[API]
+url = https://{FQDN}/api/v1/organizers/{ORGANIZER}/events/{EVENT_SLUG}/checkinlists/{CHECKINLIST_ID}/positions/
+token = foobar2342

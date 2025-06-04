@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Wo sind meine Teilis?</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+</head>
+<body class="bg-light">
+<div class="container my-5">
+  <h1 class="mb-4">Wo sind meine Teilis?</h1>
+
+  {% for location, entries in checkins.items() %}
+    <h2 class="mt-4">{{ location }}</h2>
+
+    {% if entries %}
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Checked-In Seit</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for entry in entries %}
+          <tr class="{% if entry.is_old %}table-danger{% endif %}">
+            <td>{{ entry.name }}</td>
+            <td>{{ entry.time }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="alert alert-warning">Keine Checkins</div>
+    {% endif %}
+
+  {% endfor %}
+</div>
+</body>
+</html>
