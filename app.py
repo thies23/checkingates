@@ -26,21 +26,34 @@ def load_gates():
                 print(f"Ungültige Zeile in gates.txt: {line}")
     return gates
 
+
+def fetch_all_pages(url, headers):
+    all_results = []
+    while url:
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            print("API-Fehler:", response.status_code, response.text)
+            break
+
+        data = response.json()
+        all_results.extend(data.get("results", []))
+        url = data.get("next")  # nächste Seite, oder None wenn fertig
+
+    return all_results
+
+
 def fetch_checkins():
     headers = {"Authorization": f"Token {AUTH_TOKEN}"}
-    response = requests.get(API_URL, headers=headers)
-    if response.status_code != 200:
-        print("API-Fehler:", response.status_code, response.text)
-        return {}
 
-    data = response.json()
+
+    all_results = fetch_all_pages(API_URL, headers)
     gates = load_gates()
     result = defaultdict(list)
 
     for gate_name in gates.values():
         result[gate_name] = []
 
-    for pos in data.get("results", []):
+    for pos in all_results:
         name = pos.get("attendee_name", "Unbekannt")
         checkins = pos.get("checkins", [])
         if checkins:
@@ -56,7 +69,7 @@ def fetch_checkins():
                 "is_old": is_old
             })
 
-    return dict(sorted(result.items())) 
+    return dict(sorted(result.items()))
 
 @app.route("/")
 def index():
