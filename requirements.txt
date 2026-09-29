@@ -1,2 +1,4 @@
 Flask
 configparser
+requests
+python-dateutil
