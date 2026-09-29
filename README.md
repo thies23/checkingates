@@ -8,7 +8,7 @@ Als kleinen Hack für Jugend hackt Events entwickelt.
 
 ### Installation
 
-- `git clone github.com/td00/checkingates`
+- `git clone https://github.com/thies23/checkingates`
 - `pip install -r requirements.txt`
 - `cp config.ini.example config.ini`
 - config.ini füllen
